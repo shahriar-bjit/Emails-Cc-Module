@@ -1,8 +1,8 @@
 from odoo import models, fields, api
 
 
-_PARAM_ENABLE = 'cc_bcc.enable_custom_partner'
-_PARAM_RECIPIENTS = 'cc_bcc.custom_partner_ids'
+_PARAM_ENABLE = 'cc_email_automation.enable_custom_partner'
+_PARAM_RECIPIENTS = 'cc_email_automation.custom_partner_ids'
 
 class ResConfigSettings(models.TransientModel):
     _inherit = 'res.config.settings'
@@ -24,7 +24,7 @@ class ResConfigSettings(models.TransientModel):
     @api.model
     def get_values(self):
         res = super().get_values()
-        param = self.env['ir.config_parameter'].sudo().get_param('cc_bcc.custom_partner_ids', default='')
+        param = self.env['ir.config_parameter'].sudo().get_param('cc_email_automation.custom_partner_ids', default='')
         partner_ids = [int(pid) for pid in param.split(',') if pid]
         res.update({
             'custom_partner_ids': [(6, 0, partner_ids)],
@@ -36,11 +36,14 @@ class ResConfigSettings(models.TransientModel):
         config = self.env['ir.config_parameter'].sudo()
 
         if self.enable_custom_partner:
-            partner_ids_str = ','.join(map(str, self.custom_partner_ids.ids))
+            partner_ids = self.custom_partner_ids.ids
+            if not partner_ids:
+                partner_ids = self._get_cc_ids_from_param()
+            partner_ids_str = ','.join(map(str, partner_ids))
         else:
             partner_ids_str = ''
 
-        config.set_param('cc_bcc.custom_partner_ids', partner_ids_str)
+        config.set_param('cc_email_automation.custom_partner_ids', partner_ids_str)
 
     @api.model
     def _get_cc_ids_from_param(self):

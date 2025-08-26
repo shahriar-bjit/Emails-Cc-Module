@@ -3,6 +3,11 @@ __pycache__/
 *.py[codz]
 *$py.class
 
+# Ignore coverage reports
+coverage_html/
+.coverage
+.coveragerc
+
 # C extensions
 *.so
 

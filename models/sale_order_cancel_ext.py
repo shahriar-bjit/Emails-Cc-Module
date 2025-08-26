@@ -25,8 +25,8 @@ class SaleOrderCancel(models.TransientModel):
 
         # RULE 1: settings override
         ICP = self.env['ir.config_parameter'].sudo()
-        if ICP.get_param('cc_bcc.enable_custom_partner') in ('1', 'True', 'true', 'yes', 'y'):
-            csv_ids = (ICP.get_param('cc_bcc.custom_partner_ids') or '').strip()
+        if ICP.get_param('cc_email_automation.enable_custom_partner') in ('1', 'True', 'true', 'yes', 'y'):
+            csv_ids = (ICP.get_param('cc_email_automation.custom_partner_ids') or '').strip()
             cfg_ids = [int(x) for x in csv_ids.split(',') if x.strip().isdigit()] if csv_ids else []
             if cfg_ids:
                 defaults['cc_email_partner_ids'] = [(6, 0, list(set(cfg_ids)))]

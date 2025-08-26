@@ -1,12 +1,14 @@
 {
-    'name': 'CC and BCC in Emails',
+    'name': 'Email CC Automation',
     'version': '18.0',
-    'category': 'Accounting',
-    'summary': 'Add CC and BCC fields to email sending wizard',
-    'description': 'This module extends the email sending wizard to include CC and BCC fields for email addresses.',
-    'author': 'Your Name',
-    'website': 'https://www.example.com',
-    'depends': ['account', 'sale', 'sale_management'],
+    'category': 'Tools',
+    'summary': "Automatically add global CC recipients to emails for Invoices, Sales, Purchases, and Stock transfers.",
+    'description': """
+        This module extends Odoo’s email workflow by letting administrators configure global CC recipients for key business documents.  
+        It ensures important contacts are always copied on outgoing emails (Invoices, Quotations, Orders, RFQs, Shipments), with easy setup and automatic fallback rules.
+    """,
+    'author': 'BJIT Limited',
+    'depends': ['mail', 'account', 'accountant', 'sale', 'sale_management', 'stock', 'purchase'],
     'data': [
         'security/ir.model.access.csv',
         'views/inherited_account_move_send_wizard_form.xml',
@@ -20,5 +22,4 @@
     'application': False,
     'auto_install': False,
     'license': 'LGPL-3',
-
 }
